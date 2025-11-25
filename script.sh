@@ -1,6 +1,7 @@
-cd Resources/
-zsh assembleDDMOSReminder.zsh
-sudo zsh ddmOSReminder.Assembled.*.zsh
+#!/bin/zsh
+set -euo pipefail
 
-tail -f /var/log/org.kg.log
-launchctl kickstart -kp system/org.kg.dor
+cd /path/to/DDM-OS-Reminder/Resources
+zsh assembleDDMOSReminder.zsh
+zsh ddmOSReminder.Assembled.*.zsh
+launchctl kickstart -kp system/org.kg.dor 
