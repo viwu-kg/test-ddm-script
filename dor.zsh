@@ -12,10 +12,10 @@ mkdir -p "$(dirname "$LOGFILE")"
   cd "$SCRIPT_DIR"
 
   # 1) assemble
-  /bin/zsh "$SCRIPT_DIR/assembleDDMOSReminder.zsh"
+  /bin/zsh "$SCRIPT_DIR/Resources/assembleDDMOSReminder.zsh"
 
   # 2) run assembled script
-  /bin/zsh "$SCRIPT_DIR"/ddmOSReminder.Assembled.*.zsh
+  /bin/zsh "$SCRIPT_DIR"/Resources/ddmOSReminder.Assembled.*.zsh
 
   echo "[$(date)] dor.zsh finished"
 } >> "$LOGFILE" 2>&1
