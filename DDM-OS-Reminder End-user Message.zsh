@@ -271,7 +271,7 @@ function updateRequiredVariables() {
             error "Failed to download the icon from '${macOSIconURL}'."
             icon="/System/Library/CoreServices/Finder.app"
         else
-            icon="/var/tmp/icon.png"
+            icon="./images/kg.png"
         fi
     fi
 
@@ -294,8 +294,6 @@ function updateRequiredVariables() {
     supportTeamPhone="1 416 994 9076"
     supportTeamEmail="itservicedesk@konradgroup.com"
     supportTeamWebsite="https://konrad.com"
-    # infobuttonaction="https://servicenow.domain.org/support?id=kb_article_view&sysparm_article=${supportKB}"
-    # supportKBURL="[${supportKB}](${infobuttonaction})"
 
 
 
@@ -351,7 +349,6 @@ function displayReminderDialog() {
         --infobox "${infobox}" \
         --button1text "${button1text}" \
         --button2text "${button2text}" \
-        --infobuttontext "${infobuttontext}" \
         --messagefont "size=14" \
         --helpmessage "${helpmessage}" \
         --helpimage "${helpimage}" \
