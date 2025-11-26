@@ -3,9 +3,7 @@
 
 ####################################################################################################
 #
-# Declarative Device Management macOS Reminder: End-user Message
-#
-# http://snelson.us/ddm
+# macOS Update Reminder: End-user Message
 #
 ####################################################################################################
 
@@ -34,10 +32,10 @@ autoload -Uz is-at-least
 # Organization Variables
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Script Human-readable Name
-humanReadableScriptName="DDM OS Reminder End-user Message"
+# Script Human-readable Name (CUSTOMIZE)
+humanReadableScriptName="macOS Update Reminder"
 
-# Organization's Script Name
+# Organization's Script Name (CUSTOMIZE IF NEEDED)
 organizationScriptName="dorm"
 
 # Organization's number of days before deadline to starting displaying reminders
@@ -184,7 +182,7 @@ installedOSvsDDMenforcedOS() {
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Check User's Display Sleep Assertions (thanks, @techtrekkie!)
+# Check User's Display Sleep Assertions
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 function checkUserDisplaySleepAssertions() {
@@ -239,12 +237,11 @@ function updateRequiredVariables() {
     # Organization's Branding Variables
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    # Organization's Overlayicon URL
+    # Organization's Overlayicon URL (CUSTOMIZE)
     organizationOverlayiconURL=""
 
     # Download the overlayicon from ${organizationOverlayiconURL}
     if [[ -n "${organizationOverlayiconURL}" ]]; then
-        # notice "Downloading overlayicon from '${organizationOverlayiconURL}' …"
         curl -o "/var/tmp/overlayicon.png" "${organizationOverlayiconURL}" --silent --show-error --fail
         if [[ "$?" -ne 0 ]]; then
             echo "Error: Failed to download the overlayicon from '${organizationOverlayiconURL}'."
@@ -258,7 +255,7 @@ function updateRequiredVariables() {
 
 
 
-    # macOS Installer Icon URL
+    # macOS Installer Icon URL (these are generic platform icons; adjust if desired)
     majorDDM="${ddmVersionString%%.*}"
     case ${majorDDM} in
         14)  macOSIconURL="https://ics.services.jamfcloud.com/icon/hash_eecee9688d1bc0426083d427d80c9ad48fa118b71d8d4962061d4de8d45747e7" ;;
@@ -269,7 +266,6 @@ function updateRequiredVariables() {
 
     # Download the icon from ${macOSIconURL}
     if [[ -n "${macOSIconURL}" ]]; then
-        # notice "Downloading icon from '${macOSIconURL}' …"
         curl -o "/var/tmp/icon.png" "${macOSIconURL}" --silent --show-error --fail
         if [[ "$?" -ne 0 ]]; then
             error "Failed to download the icon from '${macOSIconURL}'."
@@ -285,35 +281,32 @@ function updateRequiredVariables() {
     # swiftDialog Variables
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    # swiftDialog Binary Path
+    # swiftDialog Binary Path (CUSTOMIZE IF INSTALLED ELSEWHERE)
     dialogBinary="/usr/local/bin/dialog"
 
 
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # IT Support Variables
+    # IT Support Variables (CUSTOMIZE)
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     supportTeamName="IT Support"
-    supportTeamPhone="+1 (801) 555-1212"
-    supportTeamEmail="rescue@domain.org"
-    supportTeamWebsite="https://support.domain.org"
-    supportTeamHyperlink="[${supportTeamWebsite}](${supportTeamWebsite})"
-    supportKB="KB8675309"
-    infobuttonaction="https://servicenow.domain.org/support?id=kb_article_view&sysparm_article=${supportKB}"
-    supportKBURL="[${supportKB}](${infobuttonaction})"
+    supportTeamPhone="1 416 994 9076"
+    supportTeamEmail="itservicedesk@konradgroup.com"
+    supportTeamWebsite="https://konrad.com"
+    # infobuttonaction="https://servicenow.domain.org/support?id=kb_article_view&sysparm_article=${supportKB}"
+    # supportKBURL="[${supportKB}](${infobuttonaction})"
 
 
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # Title, Message and  Button Variables
+    # Title, Message and Button Variables
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     title="macOS ${titleMessageUpdateOrUpgrade} Required"
     button1text="Open Software Update"
     button2text="Remind Me Later"
     message="**A required macOS ${titleMessageUpdateOrUpgrade:l} is now available**<br>---<br>Happy $( date +'%A' ), ${loggedInUserFirstname}!<br><br>Please ${titleMessageUpdateOrUpgrade:l} to macOS **${ddmVersionString}** to ensure your Mac remains secure and compliant with organizational policies.<br><br>To perform the ${titleMessageUpdateOrUpgrade:l} now, click **${button1text}**, review the on-screen instructions, then click **${softwareUpdateButtonText}**.<br><br>If you are unable to perform this ${titleMessageUpdateOrUpgrade:l} now, click **${button2text}** to be reminded again later.<br><br>However, your device **will automatically restart and ${titleMessageUpdateOrUpgrade:l}** on **${ddmEnforcedInstallDateHumanReadable}** if you have not ${titleMessageUpdateOrUpgrade:l}d before the deadline.<br><br>For assistance, please contact **${supportTeamName}** by clicking the (?) button in the bottom, right-hand corner."
-    infobuttontext="${supportKB}"
     action="x-apple.systempreferences:com.apple.preferences.softwareupdate"
 
 
@@ -327,12 +320,15 @@ function updateRequiredVariables() {
 
 
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    # Help Message Variables
+    # Help Message & Help Image Variables
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    helpmessage="For assistance, please contact: **${supportTeamName}**<br>- **Telephone:** ${supportTeamPhone}<br>- **Email:** ${supportTeamEmail}<br>- **Website:** ${supportTeamWebsite}<br>- **Knowledge Base Article:** ${supportKBURL}<br><br>**User Information:**<br>- **Full Name:** {userfullname}<br>- **User Name:** {username}<br><br>**Computer Information:**<br>- **Computer Name:** {computername}<br>- **Serial Number:** {serialnumber}<br>- **macOS:** {osversion}<br><br>**Script Information:**<br>- **Dialog:** $(/usr/local/bin/dialog -v)<br>- **Script:** ${scriptVersion}<br>"
+    helpmessage="For assistance, please contact: **${supportTeamName}**<br>- **Telephone:** ${supportTeamPhone}<br>- **Email:** ${supportTeamEmail}<br>- **Website:** ${supportTeamWebsite}<br>**User Information:**<br>- **Full Name:** {userfullname}<br>- **User Name:** {username}<br><br>**Computer Information:**<br>- **Computer Name:** {computername}<br>- **Serial Number:** {serialnumber}<br>- **macOS:** {osversion}<br><br>**Script Information:**<br>- **Dialog:** $(/usr/local/bin/dialog -v)<br>- **Script:** ${scriptVersion}<br>"
 
-    helpimage="qr=${infobuttonaction}"
+    # NEW: Replace the original help image with your own image.
+    # You can point this to a company-hosted PNG/JPG instead.
+    # Example: helpimage="/Library/Management/org.kg/help-image.png"
+    helpimage="../Images/kg.png"
 
 }
 
@@ -403,13 +399,6 @@ function displayReminderDialog() {
             quitScript "0"
             ;;
 
-        3)  ## Process exit code 3 scenario here
-            notice "${loggedInUser} clicked ${infobuttontext}"
-            echo "blurscreen: disable" >> /var/tmp/dialog.log
-            su \- "$(stat -f%Su /dev/console)" -c "open '${infobuttonaction}'"
-            quitScript "0"
-            ;;
-
         4)  ## Process exit code 4 scenario here
             notice "User allowed timer to expire"
             quitScript "0"
@@ -432,7 +421,7 @@ function displayReminderDialog() {
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Quit Script (thanks, @bartreadon!)
+# Quit Script
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 function quitScript() {
@@ -473,6 +462,7 @@ if [[ ! -f "${scriptLog}" ]]; then
         fatal "Unable to create specified scriptLog '${scriptLog}'; exiting.\n\n(Is this script running as 'root' ?)"
     fi
 else
+    :
     # preFlight "Specified scriptLog '${scriptLog}' exists; writing log entries to it"
 fi
 
@@ -482,7 +472,7 @@ fi
 # Pre-flight Check: Logging Preamble
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-preFlight "\n\n###\n# $humanReadableScriptName (${scriptVersion})\n# http://snelson.us/ddm\n####\n"
+preFlight "\n\n###\n# $humanReadableScriptName (${scriptVersion})\n####\n"
 preFlight "Initiating …"
 
 
@@ -550,7 +540,7 @@ installedOSvsDDMenforcedOS
 
 if [[ "${versionComparisonResult}" == "Update Required" ]]; then
 
-    # Skip notifications if we're outside the display reminder window (thanks for the suggestion, @kristian!)
+    # Skip notifications if we're outside the display reminder window
     if (( ddmVersionStringDaysRemaining > daysBeforeDeadlineDisplayReminder )); then
         notice "Deadline still ${ddmVersionStringDaysRemaining} days away; skipping reminder until within ${daysBeforeDeadlineDisplayReminder}-day window."
         quitScript "0"
